@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload - Fantube</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+  <header class="p-4 bg-red-900 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Upload to Fantube</h1>
+    <nav>
+      <a href="index.html" class="text-sm underline hover:text-red-300">Back to Home</a>
+    </nav>
+  </header>
+
+  <main class="p-4 max-w-xl mx-auto">
+    <form id="uploadForm" class="space-y-4">
+      <div>
+        <label class="block mb-1 text-sm">Video Title</label>
+        <input type="text" id="title" required class="w-full p-2 rounded bg-zinc-800 border border-zinc-600">
+      </div>
+      <div>
+        <label class="block mb-1 text-sm">Thumbnail URL</label>
+        <input type="url" id="thumb" required class="w-full p-2 rounded bg-zinc-800 border border-zinc-600">
+      </div>
+      <div>
+        <label class="block mb-1 text-sm">Embed Link</label>
+        <input type="url" id="link" required class="w-full p-2 rounded bg-zinc-800 border border-zinc-600">
+      </div>
+      <button type="submit" class="bg-red-700 hover:bg-red-800 px-4 py-2 rounded">Submit</button>
+    </form>
+    <p id="status" class="mt-4 text-green-400 hidden">Video added locally! Refresh homepage to view.</p>
+  </main>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newVideo = {
+        title: document.getElementById('title').value,
+        thumb: document.getElementById('thumb').value,
+        link: document.getElementById('link').value
+      };
+      const existing = JSON.parse(localStorage.getItem('fantube_videos') || '[]');
+      existing.push(newVideo);
+      localStorage.setItem('fantube_videos', JSON.stringify(existing));
+      document.getElementById('status').classList.remove('hidden');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
